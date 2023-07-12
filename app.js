@@ -2,6 +2,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const generateURL = require('./generate_url')
 
 // 連接 mongoDB
 if (process.env.NODE_ENV !== 'production') {
@@ -23,7 +24,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/url', (req, res) => {
-  res.render('result')
+  const url = generateURL()
+  res.render('result', { url })
 })
 // 監聽器
 const port = 3000
