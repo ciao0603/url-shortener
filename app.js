@@ -22,6 +22,9 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
+app.post('/url', (req, res) => {
+  res.render('result')
+})
 // 監聽器
 const port = 3000
 app.listen(port, () => {
