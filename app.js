@@ -3,6 +3,7 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const generateURL = require('./generate_url')
+const URL = require('./models/url')
 
 // 連接 mongoDB
 if (process.env.NODE_ENV !== 'production') {
@@ -17,6 +18,8 @@ db.once('open', () => console.log('mongoDB connected'))
 const app = express()
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs'}))
 app.set('view engine', 'hbs')
+// // 載入body-parser
+app.use(express.urlencoded({extended: true}))
 
 // 設定路由
 app.get('/', (req, res) => {
@@ -24,8 +27,11 @@ app.get('/', (req, res) => {
 })
 
 app.post('/url', (req, res) => {
-  const url = generateURL()
-  res.render('result', { url })
+  const hostname = req.body.hostname
+  const shortname = generateURL()
+  res.render('result', { shortname })
+  URL.create({hostname, shortname})
+    .catch(error => console.log(error))
 })
 // 監聽器
 const port = 3000
