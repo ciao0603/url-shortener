@@ -1,2 +1,5 @@
 1. 初始化專案(express、app)
 
+2. 設定引擎(handlebars)
+
+3. 連接資料庫(mongoose、mongoDB、dotenv)、定義資料結構
