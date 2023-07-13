@@ -28,9 +28,21 @@ app.get('/', (req, res) => {
 
 app.post('/url', (req, res) => {
   const hostname = req.body.hostname
-  const shortname = generateURL()
-  res.render('result', { shortname })
-  URL.create({ hostname, shortname })
+  console.log(hostname)
+
+  URL.find()
+    .lean()
+    .then(urls => urls.find(url => url.hostname === hostname))
+    .then(url => {
+      if (!url) {
+        const shortname = generateURL()
+        res.render('result', { shortname })
+        URL.create({ hostname, shortname })
+          .catch(error => console.log(error))
+      }
+
+      res.render('result', { shortname: url.shortname })
+    })
     .catch(error => console.log(error))
 })
 // 監聽器
