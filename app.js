@@ -9,17 +9,17 @@ const URL = require('./models/url')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 db.on('error', () => console.log('mongoDB error'))
 db.once('open', () => console.log('mongoDB connected'))
 
 // 設定引擎
 const app = express()
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs'}))
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 // // 載入body-parser
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 // 設定路由
 app.get('/', (req, res) => {
@@ -30,7 +30,7 @@ app.post('/url', (req, res) => {
   const hostname = req.body.hostname
   const shortname = generateURL()
   res.render('result', { shortname })
-  URL.create({hostname, shortname})
+  URL.create({ hostname, shortname })
     .catch(error => console.log(error))
 })
 // 監聽器
